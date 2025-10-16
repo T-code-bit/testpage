@@ -1,102 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tribute to Raila Odinga</title>
-<style>
-  body {
-    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-    color: #eee;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    text-align: center;
-    padding: 20px;
-  }
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.2em;
-    color: #f0a500;
-  }
-  .legacy {
-    font-size: 1.5rem;
-    margin: 2em 0;
-    min-height: 4em;
-    opacity: 0;
-    transition: opacity 1.2s ease-in-out;
-  }
-  .legacy.visible {
-    opacity: 1;
-  }
-  .loading {
-    margin-top: 2em;
-    font-style: italic;
-    color: #888;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tribute to Raila Odinga</title>
+  <link rel="icon" href="https://i.imgur.com/2KvB6pP.jpg" type="image/jpeg">
+  <style>
+    body {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.imgur.com/fK5R1oO.png') repeat;
+      opacity: 0.05;
+      z-index: -1;
+    }
+
+    img {
+      width: 250px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 0.5em 0 0.2em;
+      color: #f0a500;
+    }
+
+    .legacy {
+      font-size: 1.5rem;
+      margin: 2em 0;
+      min-height: 4em;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+    }
+
+    .legacy.visible {
+      opacity: 1;
+    }
+
+    .loading {
+      margin-top: 2em;
+      font-style: italic;
+      color: #888;
+    }
+
+    .float-quote {
+      position: absolute;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.08);
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
 
-<h1>🕊️ Rest in Power, Raila Odinga 🕊️</h1>
-<p>🇰🇪 The nation grieves, but your legacy is eternal.</p>
+  <div class="float-quote" style="top: 10%; left: 5%; transform: rotate(-10deg);">
+    "Heroes live forever."
+  </div>
+  <div class="float-quote" style="bottom: 10%; right: 5%; transform: rotate(10deg);">
+    "Truth never dies."
+  </div>
 
-<div class="legacy" id="legacy"></div>
-<div class="loading" id="loading"></div>
-<audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2021/10/25/audio_1d6c748f47.mp3?filename=slow-piano-6693.mp3" preload="auto" loop></audio>
+  <img src="https://i.imgur.com/2KvB6pP.jpg" alt="Raila Odinga" />
+  <h1>🕊️ Rest in Power, Raila Odinga 🕊️</h1>
+  <p>🇰🇪 The nation grieves, but your legacy is eternal.</p>
 
-<script>
-  const legacyLines = [
-    "A beacon of hope.",
-    "Champion of democracy.",
-    "Voice of the people.",
-    "Your legacy lives on in every heart.",
-  ];
+  <div class="legacy" id="legacy"></div>
+  <div class="loading" id="loading"></div>
 
-  const legacyDiv = document.getElementById('legacy');
-  const loadingDiv = document.getElementById('loading');
-  const bgMusic = document.getElementById('bgMusic');
-  let index = 0;
+  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2021/10/25/audio_1d6c748f47.mp3?filename=slow-piano-6693.mp3" preload="auto" loop></audio>
 
-  function showLegacy() {
-    if (index < legacyLines.length) {
-      legacyDiv.textContent = legacyLines[index];
-      legacyDiv.classList.add('visible');
-      setTimeout(() => {
-        legacyDiv.classList.remove('visible');
-        index++;
-        setTimeout(showLegacy, 800); // fade out delay
-      }, 3000); // visible time
-    } else {
-      loadingDiv.textContent = "Loading memories... ⏳";
-      setTimeout(() => {
-        loadingDiv.textContent = "No garbage collection for your impact — forever in memory.";
-        bgMusic.pause();
-      }, 3000);
+  <div style="margin-top: 40px;">
+    <img src="https://i.imgur.com/O9b6nZV.gif" alt="Candle" width="60" />
+    <p style="font-style: italic; color: #ccc;">A light that never fades.</p>
+  </div>
+
+  <script>
+    const legacyLines = [
+      "A beacon of hope.",
+      "Champion of democracy.",
+      "Voice of the people.",
+      "Your legacy lives on in every heart.",
+    ];
+
+    const legacyDiv = document.getElementById('legacy');
+    const loadingDiv = document.getElementById('loading');
+    const bgMusic = document.getElementById('bgMusic');
+    let index = 0;
+
+    function showLegacy() {
+      if (index < legacyLines.length) {
+        legacyDiv.textContent = legacyLines[index];
+        legacyDiv.classList.add('visible');
+        setTimeout(() => {
+          legacyDiv.classList.remove('visible');
+          index++;
+          setTimeout(showLegacy, 800);
+        }, 3000);
+      } else {
+        loadingDiv.textContent = "Loading memories... ⏳";
+        setTimeout(() => {
+          loadingDiv.textContent = "No garbage collection for your impact — forever in memory.";
+          bgMusic.pause();
+        }, 3000);
+      }
     }
-  }
 
-  // Start music and legacy display
-  bgMusic.volume = 0.2;
-  bgMusic.play().catch(() => {
-    // Autoplay might be blocked; user interaction needed
-    const playButton = document.createElement('button');
-playButton.textContent = "Play Tribute Music";
-    playButton.style.marginTop = "20px";
-    playButton.style.padding = "10px 20px";
-    document.body.appendChild(playButton);
-    playButton.addEventListener('click', () => {
-      bgMusic.play();
-      playButton.remove();
+    bgMusic.volume = 0.2;
+    bgMusic.play().catch(() => {
+      const playButton = document.createElement('button');
+      playButton.textContent = "Play Tribute Music";
+      playButton.style.marginTop = "20px";
+      playButton.style.padding = "10px 20px";
+      document.body.appendChild(playButton);
+      playButton.addEventListener('click', () => {
+        bgMusic.play();
+        playButton.remove();
+      });
     });
-  });
 
-  showLegacy();
-</script>
+    showLegacy();
+  </script>
 
 </body>
 </html>
