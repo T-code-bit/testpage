@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tribute to Raila Odinga</title>
   <link rel="icon" href="https://i.imgur.com/2KvB6pP.jpg" type="image/jpeg">
+
   <style>
     body {
       background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
@@ -19,8 +20,10 @@
       text-align: center;
       padding: 20px;
       overflow: hidden;
+      position: relative;
     }
 
+    /* Subtle background texture */
     body::after {
       content: "";
       position: fixed;
@@ -36,7 +39,12 @@
       width: 250px;
       border-radius: 10px;
       margin-bottom: 20px;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.05);
     }
 
     h1 {
@@ -45,12 +53,18 @@
       color: #f0a500;
     }
 
+    p {
+      color: #ccc;
+      font-size: 1.1rem;
+      margin: 0.3em 0 1em;
+    }
+
     .legacy {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       margin: 2em 0;
       min-height: 4em;
       opacity: 0;
-      transition: opacity 1.2s ease-in-out;
+      transition: opacity 1s ease-in-out;
     }
 
     .legacy.visible {
@@ -58,7 +72,7 @@
     }
 
     .loading {
-      margin-top: 2em;
+      margin-top: 1em;
       font-style: italic;
       color: #888;
     }
@@ -66,13 +80,33 @@
     .float-quote {
       position: absolute;
       font-size: 1rem;
-      color: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.1);
       font-style: italic;
+      user-select: none;
+    }
+
+    .candle {
+      margin-top: 40px;
+    }
+
+    button {
+      background: #f0a500;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #ffc107;
     }
   </style>
 </head>
-<body>
 
+<body>
   <div class="float-quote" style="top: 10%; left: 5%; transform: rotate(-10deg);">
     "Heroes live forever."
   </div>
@@ -89,7 +123,7 @@
 
   <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2021/10/25/audio_1d6c748f47.mp3?filename=slow-piano-6693.mp3" preload="auto" loop></audio>
 
-  <div style="margin-top: 40px;">
+  <div class="candle">
     <img src="https://i.imgur.com/O9b6nZV.gif" alt="Candle" width="60" />
     <p style="font-style: italic; color: #ccc;">A light that never fades.</p>
   </div>
@@ -99,7 +133,7 @@
       "A beacon of hope.",
       "Champion of democracy.",
       "Voice of the people.",
-      "Your legacy lives on in every heart.",
+      "Your legacy lives on in every heart."
     ];
 
     const legacyDiv = document.getElementById('legacy');
@@ -111,6 +145,7 @@
       if (index < legacyLines.length) {
         legacyDiv.textContent = legacyLines[index];
         legacyDiv.classList.add('visible');
+
         setTimeout(() => {
           legacyDiv.classList.remove('visible');
           index++;
@@ -125,12 +160,11 @@
       }
     }
 
-    bgMusic.volume = 0.2;
+    // Music autoplay handling
+    bgMusic.volume = 0.25;
     bgMusic.play().catch(() => {
       const playButton = document.createElement('button');
-      playButton.textContent = "Play Tribute Music";
-      playButton.style.marginTop = "20px";
-      playButton.style.padding = "10px 20px";
+      playButton.textContent = "🎵 Play Tribute Music";
       document.body.appendChild(playButton);
       playButton.addEventListener('click', () => {
         bgMusic.play();
@@ -138,8 +172,8 @@
       });
     });
 
+    // Start the legacy quotes animation
     showLegacy();
   </script>
-
 </body>
 </html>
