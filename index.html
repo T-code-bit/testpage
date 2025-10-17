@@ -1,248 +1,499 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tribute to Raila Odinga</title>
-  <link rel="icon" href="https://i.imgur.com/2KvB6pP.jpg" type="image/jpeg">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tribute — Raila Odinga</title>
+  <link rel="icon" href="https://i.imgur.com/2KvB6pP.jpg" type="image/jpeg" />
   <style>
+    /* ---------------------
+       Reset & Base
+       --------------------- */
     * { box-sizing: border-box; }
-
+    html,body { height:100%; }
     body {
       margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: radial-gradient(circle at center, #0c0c0c 0%, #000 100%);
-      color: #eee;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: #f5f2ec;
+      background: #020202;
       overflow: hidden;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
-      transition: background 2s ease-in-out, filter 2s ease-in-out;
+      text-align: center;
     }
 
-    /* Floating background particles */
-    .particle {
+    /* ---------------------
+       Waving flag layer (pseudo-3D)
+       - uses an SVG flag as a background
+       - animated with CSS keyframes + 3D transform for cinematic wave
+       --------------------- */
+    .flag-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      perspective: 1000px;
+      pointer-events: none;
+    }
+
+    .flag {
       position: absolute;
-      width: 6px;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 50%;
-      animation: float 10s linear infinite;
-    }
-    @keyframes float {
-      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+      inset: 0;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/2a/Flag_of_Kenya.svg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.18;               /* subtle */
+      transform-origin: 50% 50%;
+      filter: saturate(0.95) contrast(1.05) brightness(0.8);
+      will-change: transform, filter;
+      /* tilt the flag surface for 3D feel */
+      transform: translateZ(-100px) rotateX(8deg);
+      animation: flagWave 7.5s ease-in-out infinite;
+      mix-blend-mode: screen;
     }
 
-    /* Image + Header */
-    img.portrait {
-      width: 230px;
-      border-radius: 12px;
-      box-shadow: 0 0 25px rgba(240,165,0,0.3);
-      margin-bottom: 20px;
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    /* a gradient layer above the flag to tint it to night/gold */
+    .flag::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.75));
+      pointer-events: none;
     }
-    img.portrait:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(240,165,0,0.5); }
+
+    @keyframes flagWave {
+      0% {
+        transform: translateZ(-100px) rotateX(7deg) rotateY(-3deg) translateX(-3px);
+        background-position: 48% 50%;
+        filter: saturate(0.9) brightness(0.82) hue-rotate(-2deg);
+      }
+      25% {
+        transform: translateZ(-80px) rotateX(9deg) rotateY(2deg) translateX(6px);
+        background-position: 52% 48%;
+        filter: saturate(1.05) brightness(0.86) hue-rotate(2deg);
+      }
+      50% {
+        transform: translateZ(-100px) rotateX(8deg) rotateY(-2deg) translateX(-6px);
+        background-position: 50% 52%;
+        filter: saturate(1.0) brightness(0.8) hue-rotate(0deg);
+      }
+      75% {
+        transform: translateZ(-90px) rotateX(9deg) rotateY(3deg) translateX(3px);
+        background-position: 49% 50%;
+        filter: saturate(1.02) brightness(0.84) hue-rotate(1deg);
+      }
+      100% {
+        transform: translateZ(-100px) rotateX(7deg) rotateY(-3deg) translateX(-3px);
+        background-position: 48% 50%;
+        filter: saturate(0.9) brightness(0.82) hue-rotate(-2deg);
+      }
+    }
+
+    /* ---------------------
+       Memorial overlay styling
+       --------------------- */
+    .memorial {
+      position: relative;
+      z-index: 2;
+      width: min(980px, 92vw);
+      padding: 36px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(6,6,6,0.55), rgba(6,6,6,0.38));
+      box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 60px rgba(255, 200, 60, 0.03) inset;
+      backdrop-filter: blur(6px) saturate(1.06);
+      border: 1px solid rgba(255, 200, 60, 0.03);
+      overflow: visible;
+    }
+
+    .portrait {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 200, 60, 0.06);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 30px rgba(255,200,60,0.08);
+      transition: transform .6s cubic-bezier(.2,.9,.2,1), filter .6s;
+    }
+
+    .portrait:hover { transform: translateY(-6px) scale(1.02); filter: brightness(1.02); }
 
     h1 {
-      font-size: 2.6rem;
-      color: #f0a500;
-      text-shadow: 0 0 15px rgba(240,165,0,0.4);
-      margin: 0.4em 0 0.3em;
+      margin: 16px 0 6px;
+      font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+      letter-spacing: 0.6px;
+      color: #FFD77A; /* gold */
+      text-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 30px rgba(255,200,70,0.06);
     }
 
-    p.subtitle { color: #ccc; font-size: 1.15rem; margin-bottom: 1.5em; }
+    .sub {
+      margin: 0 0 18px;
+      color: #d7d2c8;
+      opacity: .95;
+      font-size: 1rem;
+    }
 
+    /* Quotes */
     .legacy {
-      font-size: 1.5rem;
-      min-height: 4em;
+      min-height: 3.6rem;
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      color: #efe9df;
       opacity: 0;
-      transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
       transform: translateY(10px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+      margin: 14px 0;
     }
     .legacy.visible { opacity: 1; transform: translateY(0); }
 
     .loading {
-      margin-top: 1.5em;
-      font-style: italic;
-      color: #999;
+      font-size: 0.92rem;
+      color: #c9bfae;
+      opacity: .9;
+      margin-top: 8px;
     }
 
-    .float-quote {
-      position: absolute;
-      font-size: 1rem;
-      color: rgba(255,255,255,0.12);
-      font-style: italic;
-      user-select: none;
-      animation: drift 30s linear infinite alternate;
+    /* candle / emblem */
+    .candle {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
-    @keyframes drift {
-      0% { transform: translate(0, 0) rotate(-10deg); }
-      100% { transform: translate(20px, -20px) rotate(10deg); }
-    }
-
-    /* Candle glow */
-    .candle { margin-top: 40px; position: relative; }
     .candle img {
-      width: 70px;
-      filter: drop-shadow(0 0 15px rgba(255,190,60,0.7));
-      animation: flicker 2s infinite ease-in-out alternate;
+      width: 76px;
+      filter: drop-shadow(0 0 18px rgba(255, 190, 60, 0.5));
+      animation: flicker 2.2s infinite ease-in-out;
+      border-radius: 10px;
     }
     @keyframes flicker {
-      0%, 100% { filter: drop-shadow(0 0 10px rgba(255,190,60,0.4)); }
-      50% { filter: drop-shadow(0 0 25px rgba(255,220,100,0.9)); }
+      0% { filter: drop-shadow(0 0 12px rgba(255,180,60,0.35)); transform: translateY(0); }
+      50% { filter: drop-shadow(0 0 28px rgba(255,210,110,0.95)); transform: translateY(-2px); }
+      100% { filter: drop-shadow(0 0 12px rgba(255,180,60,0.35)); transform: translateY(0); }
     }
 
-    /* Buttons */
-    button {
-      background: #f0a500;
-      color: #000;
+    /* gold control button (hidden when not needed) */
+    .controls {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+    }
+    .btn {
+      background: linear-gradient(180deg,#ffd77a,#f0a500);
+      color: #0b0b0b;
       border: none;
-      border-radius: 8px;
-      padding: 12px 24px;
-      font-size: 1rem;
-      margin-top: 25px;
+      padding: 10px 16px;
+      border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 0 10px rgba(240,165,0,0.3);
-      transition: all 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(240,165,0,0.12);
+      transition: transform .18s ease, box-shadow .18s ease;
+      font-size: 0.98rem;
     }
-    button:hover { background: #ffc107; box-shadow: 0 0 20px rgba(240,165,0,0.5); }
+    .btn:active { transform: translateY(2px); box-shadow: 0 3px 10px rgba(240,165,0,0.08); }
 
-    /* Rain overlay */
+    /* ---------------------
+       Particles: golden embers
+       --------------------- */
+    .embers {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .ember {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,220,140,1), rgba(255,180,60,0.95) 40%, rgba(255,160,20,0.6) 70%, transparent 80%);
+      box-shadow: 0 8px 18px rgba(255,170,60,0.12);
+      opacity: 0.0;
+      transform: translateY(0) scale(.6);
+      animation: emberFloat linear infinite;
+      will-change: transform, opacity;
+    }
+    @keyframes emberFloat {
+      0% { transform: translateY(60vh) translateX(0) scale(.6); opacity: 0; }
+      10% { opacity: 1; }
+      60% { opacity: 0.9; }
+      100% { transform: translateY(-10vh) translateX(40px) scale(1); opacity: 0; }
+    }
+
+    /* rain overlay (subtle) */
     .rain {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
+      inset: 0;
       background-image: url('https://i.imgur.com/7h7DPgG.png');
-      opacity: 0;
-      z-index: 1;
-      transition: opacity 2s ease-in-out;
-      background-repeat: repeat;
-      animation: rainMove 10s linear infinite;
+      opacity: 0.0;
+      z-index: 3;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      transition: opacity 1.8s ease;
+      animation: rainMove 12s linear infinite;
     }
-    @keyframes rainMove {
-      0% { background-position: 0 0; }
-      100% { background-position: 0 1000px; }
+    @keyframes rainMove { 0%{ background-position: 0 0 } 100% { background-position: 0 1000px } }
+
+    /* fade overlay for darker cinematic mood */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      background: radial-gradient(60% 60% at 50% 45%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.8) 100%);
+      mix-blend-mode: multiply;
+      opacity: 1;
     }
 
-    /* Memorial visual filter */
-    .memorial-active {
-      background: radial-gradient(circle at center, #000 0%, #050505 100%);
-      filter: brightness(0.6) contrast(1.2);
+    /* small screens */
+    @media (max-width:600px){
+      .memorial { padding: 20px; border-radius: 10px; }
+      .portrait { width: 160px; height: 160px; }
+      .candle img { width: 58px; }
+      h1 { font-size: 1.6rem; }
     }
-    .memorial-active .rain { opacity: 0.35; }
   </style>
 </head>
-
 <body>
-  <div class="float-quote" style="top: 10%; left: 5%;">"Heroes live forever."</div>
-  <div class="float-quote" style="bottom: 12%; right: 6%;">"Truth never dies."</div>
 
-  <div class="rain"></div>
-
-  <script>
-    // Floating background particles
-    for (let i = 0; i < 25; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.animationDuration = 8 + Math.random() * 6 + 's';
-      p.style.animationDelay = Math.random() * 5 + 's';
-      document.body.appendChild(p);
-    }
-  </script>
-
-  <img src="https://i.imgur.com/2KvB6pP.jpg" class="portrait" alt="Raila Odinga" />
-  <h1>🕊️ Rest in Power, Raila Odinga 🕊️</h1>
-  <p class="subtitle">🇰🇪 The nation grieves, but your legacy is eternal.</p>
-
-  <div class="legacy" id="legacy"></div>
-  <div class="loading" id="loading"></div>
-
-  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2021/10/25/audio_1d6c748f47.mp3?filename=slow-piano-6693.mp3" preload="auto" loop></audio>
-  <audio id="violinMusic" src="https://cdn.pixabay.com/download/audio/2023/04/04/audio_19c5f53ff7.mp3?filename=violin-melancholy-14773.mp3" preload="auto" loop></audio>
-
-  <div class="candle">
-    <img src="https://i.imgur.com/O9b6nZV.gif" alt="Candle" />
-    <p style="font-style: italic; color: #ccc;">A light that never fades.</p>
+  <!-- Flag background -->
+  <div class="flag-wrap" aria-hidden="true">
+    <div class="flag" role="img" aria-label="Kenyan flag gently waving"></div>
   </div>
 
-  <button id="memorialBtn">🕯️ Toggle Memorial Mode</button>
+  <!-- Golden embers -->
+  <div class="embers" id="embers" aria-hidden="true"></div>
+
+  <!-- Rain overlay -->
+  <div class="rain" id="rain" aria-hidden="true"></div>
+
+  <!-- Vignette / darkness overlay (top) -->
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- Main tribute card (center) -->
+  <main class="memorial" id="mainCard" role="main" aria-labelledby="title">
+    <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;justify-content:center;">
+      <img class="portrait" src="https://i.imgur.com/2KvB6pP.jpg" alt="Raila Odinga portrait" />
+
+      <div style="max-width:520px;">
+        <h1 id="title">🕊️ Raila Odinga — A Nation Remembers</h1>
+        <p class="sub">Kenya honors a life of courage, service and steadfast hope.</p>
+
+        <div class="legacy" id="legacy" aria-live="polite"></div>
+        <div class="loading" id="loading"></div>
+
+        <div class="candle" role="contentinfo">
+          <img src="https://i.imgur.com/O9b6nZV.gif" alt="Flickering candle" />
+          <p style="margin:0;color:#d9cfbe;font-size:0.95rem">A light that never fades.</p>
+        </div>
+
+        <div class="controls" id="controls">
+          <button class="btn" id="playBtn" title="Play music">▶ Play Tribute</button>
+          <button class="btn" id="toggleRain" title="Toggle Rain">☔ Rain: On</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Audio: cinematic orchestral (polite autoplay + fallback) -->
+  <audio id="score" preload="auto" loop>
+    <!-- Use a solemn cinematic / orchestral sample. Fallback gotchas: browsers may block autoplay,
+         in which case the Play button will appear and start the experience. -->
+    <source src="https://cdn.pixabay.com/download/audio/2023/04/04/audio_19c5f53ff7.mp3?filename=violin-melancholy-14773.mp3" type="audio/mpeg">
+    <!-- If you have a different orchestral file, replace src above -->
+  </audio>
 
   <script>
+    /* ---------------------
+       Quote sequence
+       --------------------- */
     const legacyLines = [
-      "A beacon of hope.",
-      "Champion of democracy.",
-      "Voice of the people.",
-      "Your legacy lives on in every heart."
+      "A beacon of hope and tireless champion of democracy.",
+      "He gave voice to the voiceless and stood for justice.",
+      "A leader whose courage inspired a nation.",
+      "His memory breathes in every stride for a fair Kenya."
     ];
 
     const legacyDiv = document.getElementById('legacy');
     const loadingDiv = document.getElementById('loading');
-    const bgMusic = document.getElementById('bgMusic');
-    const violinMusic = document.getElementById('violinMusic');
-    const memorialBtn = document.getElementById('memorialBtn');
-    const rain = document.querySelector('.rain');
-    let index = 0;
-    let memorialActive = false;
+    let idx = 0;
 
-    function fadeInMusic(audio, target = 0.25) {
-      audio.volume = 0;
-      audio.play().catch(() => {});
-      const fade = setInterval(() => {
-        if (audio.volume < target) audio.volume += 0.01;
-        else clearInterval(fade);
-      }, 200);
-    }
-
-    function fadeOutMusic(audio) {
-      const fade = setInterval(() => {
-        if (audio.volume > 0) audio.volume -= 0.01;
-        else { audio.pause(); clearInterval(fade); }
-      }, 200);
-    }
-
-    function showLegacy() {
-      if (index < legacyLines.length) {
-        legacyDiv.textContent = legacyLines[index];
+    function cycleLegacy() {
+      if (idx < legacyLines.length) {
+        legacyDiv.textContent = legacyLines[idx];
         legacyDiv.classList.add('visible');
         setTimeout(() => {
           legacyDiv.classList.remove('visible');
-          index++;
-          setTimeout(showLegacy, 1000);
-        }, 3000);
+          idx++;
+          setTimeout(cycleLegacy, 1000);
+        }, 3600);
       } else {
-        loadingDiv.textContent = "Loading memories... ⏳";
-        setTimeout(() => {
-          loadingDiv.textContent = "No garbage collection for your impact — forever in memory.";
-          fadeOutMusic(bgMusic);
-        }, 3000);
+        loadingDiv.textContent = "Memories loaded • Forever in our hearts.";
+        // after final line, keep the music subtle
       }
     }
 
-    fadeInMusic(bgMusic);
-    showLegacy();
+    /* ---------------------
+       Ember particles generator
+       --------------------- */
+    const embersEl = document.getElementById('embers');
+    const emberCount = 20;
 
-    memorialBtn.addEventListener('click', () => {
-      document.body.classList.toggle('memorial-active');
-      memorialActive = !memorialActive;
-      if (memorialActive) {
-        fadeOutMusic(bgMusic);
-        fadeInMusic(violinMusic, 0.3);
-      } else {
-        fadeOutMusic(violinMusic);
-        fadeInMusic(bgMusic);
+    function spawnEmbers() {
+      for (let i = 0; i < emberCount; i++) {
+        const e = document.createElement('div');
+        e.className = 'ember';
+        const size = 4 + Math.random() * 8;
+        e.style.width = size + 'px';
+        e.style.height = size + 'px';
+        e.style.left = (5 + Math.random() * 90) + '%';
+        e.style.top = (60 + Math.random() * 40) + '%';
+        e.style.opacity = 0;
+        // randomize animation duration & delay
+        const dur = 10 + Math.random() * 20;
+        const delay = Math.random() * -20;
+        e.style.animationDuration = dur + 's';
+        e.style.animationDelay = delay + 's';
+        embersEl.appendChild(e);
+      }
+    }
+
+    spawnEmbers();
+
+    /* ---------------------
+       Rain toggle
+       --------------------- */
+    const rainEl = document.getElementById('rain');
+    const toggleRainBtn = document.getElementById('toggleRain');
+    let rainOn = true; // start with subtle rain off? we'll show subtle rain on
+    function setRain(on) {
+      rainOn = on;
+      rainEl.style.opacity = on ? '0.28' : '0';
+      toggleRainBtn.textContent = on ? '☔ Rain: On' : '☔ Rain: Off';
+    }
+
+    toggleRainBtn.addEventListener('click', () => setRain(!rainOn));
+
+    /* ---------------------
+       Audio handling: smooth fade in/out + fallback button
+       --------------------- */
+    const score = document.getElementById('score');
+    const playBtn = document.getElementById('playBtn');
+
+    function fadeAudioIn(audio, target = 0.17, step = 0.01, interval = 200) {
+      audio.volume = 0;
+      audio.play().catch(() => {});
+      const t = setInterval(() => {
+        if (audio.volume < target - 0.0001) audio.volume = Math.min(target, audio.volume + step);
+        else clearInterval(t);
+      }, interval);
+    }
+
+    function fadeAudioOut(audio, step = 0.01, interval = 200) {
+      const t = setInterval(() => {
+        if (audio.volume > step + 0.0001) audio.volume = Math.max(0, audio.volume - step);
+        else { audio.pause(); audio.currentTime = 0; clearInterval(t); }
+      }, interval);
+    }
+
+    // Try to autoplay politely (most modern browsers block autoplay with sound)
+    // We'll attempt to fade in; if blocked, present the Play button prominently
+    function startScore() {
+      fadeAudioIn(score, 0.16, 0.01, 160);
+      playBtn.style.display = 'none';
+    }
+
+    // play button fallback
+    playBtn.addEventListener('click', () => {
+      startExperience();
+    });
+
+    /* ---------------------
+       Auto-start memorial (user requested "Start" automatically)
+       - we attempt autoplay, but if blocked, we keep play button visible.
+       --------------------- */
+    async function tryAutoplay() {
+      try {
+        await score.play();
+        // If play succeeded, fade to target
+        score.pause(); // ensure we start muted then fade in
+        score.currentTime = 0;
+        startScore();
+        playBtn.style.display = 'none';
+      } catch (err) {
+        // autoplay blocked: keep play button visible
+        playBtn.style.display = 'inline-block';
+        // let user click to start
+      }
+    }
+
+    /* ---------------------
+       Start the experience: flag, music fade, quotes, rain, embers
+       --------------------- */
+    function startExperience() {
+      // enable rain by default (subtle)
+      setRain(true);
+
+      // start music with fade
+      startScore();
+
+      // begin quotes
+      cycleLegacy();
+
+      // hide play button for accessibility
+      playBtn.style.display = 'none';
+    }
+
+    // attempt autoplay on load
+    window.addEventListener('load', () => {
+      // Start the cinematic visuals already: embed memorial mood
+      document.body.classList.add('memorial-started'); // for possible future hooks
+
+      // attempt to autoplay; if blocked, show play button
+      tryAutoplay();
+
+      // auto-start quotes immediately (they will still display even if audio hasn't started)
+      cycleLegacy();
+
+      // auto-enable small animations (embers already generated)
+      // show the rain a touch after load for cinematic reveal:
+      setTimeout(() => setRain(true), 500);
+
+      // In case autoplay succeeded silently, we still ensure music fades in after a small delay
+      setTimeout(() => {
+        if (!score.paused) fadeAudioIn(score, 0.16, 0.01, 160);
+      }, 700);
+    });
+
+    /* ---------------------
+       Accessible Pause / Resume (Spacebar toggles music)
+       --------------------- */
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (score.paused) {
+          startScore();
+        } else {
+          fadeAudioOut(score);
+          playBtn.style.display = 'inline-block';
+        }
       }
     });
+
+    /* ---------------------
+       Small visual polish: gentle scale on hover for the central card
+       --------------------- */
+    const mainCard = document.getElementById('mainCard');
+    mainCard.addEventListener('mouseenter', () => { mainCard.style.transform = 'translateY(-6px)'; mainCard.style.transition = 'transform .3s ease'; });
+    mainCard.addEventListener('mouseleave', () => { mainCard.style.transform = 'translateY(0)'; });
+
+    /* ---------------------
+       NOTES:
+       - If you'd like a different orchestral file, replace the <source> URL inside the <audio id="score"> element.
+       - To reduce CPU/GPU usage: lower emberCount, reduce flag animation duration, or set rain opacity to 0.
+       --------------------- */
   </script>
 </body>
 </html>
