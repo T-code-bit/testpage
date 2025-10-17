@@ -3,154 +3,130 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Honoring Raila Odinga</title>
+  <title>Leadership Tribute — Raila Odinga</title>
   <link rel="icon" href="https://i.imgur.com/2KvB6pP.jpg" type="image/jpeg">
   <style>
-    /* ===== Reset & Base ===== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    html, body {
-      height: 100%;
-      font-family: 'Times New Roman', serif;
-      color: #efe7d7;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
       background: #010101;
-      overflow-x: hidden;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-    /* ===== Container Layout ===== */
-    .container {
+      color: #efe7d7;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
       position: relative;
-      width: 100%;
-      max-width: 1200px;
-      margin: auto;
-      padding: 40px 20px;
-      z-index: 10;
     }
-    header {
-      text-align: center;
-      padding-bottom: 20px;
+    .intro {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
     }
-    header img {
-      width: 230px;
-      border-radius: 10px;
-      border: 4px solid rgba(255, 200, 60, 0.2);
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 200, 60, 0.1);
-      margin-bottom: 20px;
-    }
-    header h1 {
-      font-size: 2.8rem;
-      color: #ffd985;
-      text-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-      letter-spacing: 1px;
-    }
-    header p.subtitle {
+    .intro button {
+      background: linear-gradient(180deg, #ffd77a, #f0a500);
+      color: #020202;
+      border: none;
+      padding: 14px 28px;
       font-size: 1.2rem;
-      color: #ccc;
-      margin-top: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(240,165,0,0.4);
     }
 
-    /* ===== Flag Background ===== */
     .flag-bg {
       position: fixed;
-      top: -20%;
-      left: -20%;
-      width: 140%;
-      height: 140%;
+      top: -15%;
+      left: -15%;
+      width: 130%;
+      height: 130%;
       background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Kenya.svg');
       background-size: cover;
       background-position: center;
-      opacity: 0.12;
+      opacity: 0.14;
       filter: blur(2px) saturate(0.7);
-      animation: flagWave 12s ease-in-out infinite;
-      z-index: 1;
+      animation: flagWave 14s ease-in-out infinite;
+      z-index: 0;
       pointer-events: none;
     }
-
     @keyframes flagWave {
-      0% { transform: translate(-5%, -5%) rotateZ(0.2deg) scale(1.03); }
-      50% { transform: translate(5%, 5%) rotateZ(-0.2deg) scale(1.02); }
-      100% { transform: translate(-5%, -5%) rotateZ(0.2deg) scale(1.03); }
+      0% { transform: translate(-5%, -5%) rotateZ(0.5deg) scale(1.02); }
+      50% { transform: translate(5%, 5%) rotateZ(-0.5deg) scale(1.01); }
+      100% { transform: translate(-5%, -5%) rotateZ(0.5deg) scale(1.02); }
     }
 
-    /* ===== Vignette & Overlays ===== */
     .overlay-dark {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: radial-gradient(circle at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
-      z-index: 2;
+      z-index: 5;
       pointer-events: none;
     }
 
-    .embers, .mist {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 3;
-      opacity: 0.7;
-    }
-
-    .embers .ember {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,230,170,1), rgba(255,180,40,0.9));
-      box-shadow: 0 0 12px rgba(255,180,60,0.4);
-      animation: emberRise linear infinite;
-    }
-    @keyframes emberRise {
-      0% { opacity: 0; transform: translateY(80vh) scale(0.6); }
-      10% { opacity: 1; }
-      60% { opacity: 1; }
-      100% { opacity: 0; transform: translateY(-20vh) scale(1.0); }
-    }
-
-    .mist {
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), transparent 70%);
-      animation: mistDrift 20s ease-in-out infinite;
-    }
-    @keyframes mistDrift {
-      0% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-30px) scale(1.05); }
-      100% { transform: translateY(0) scale(1); }
-    }
-
-    /* ===== Main Content ===== */
-    .bio-section {
+    .card {
       position: relative;
       z-index: 10;
-      background: rgba(10, 8, 6, 0.55);
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-      border: 1px solid rgba(255,200,60,0.08);
-    }
-    .bio-section h2 {
-      margin-top: 20px;
-      font-size: 1.6rem;
-      color: #ffd985;
-      border-bottom: 2px solid rgba(255,200,60,0.6);
-      display: inline-block;
-      padding-bottom: 4px;
-    }
-    .bio-section ul {
-      margin-top:12px;
-      padding-left: 20px;
-      list-style: disc;
-      color: #ddd;
-      line-height: 1.6;
-      font-size: 1.05rem;
+      width: min(1000px, 90vw);
+      background: linear-gradient(180deg, rgba(6,6,6,0.6), rgba(10,8,6,0.3));
+      border-radius: 14px;
+      padding: 32px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,200,60,0.04);
+      backdrop-filter: blur(6px);
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.4s ease, transform 1.4s ease;
     }
 
-    /* ===== Quote Animation ===== */
+    .portrait {
+      width: 240px;
+      border-radius: 8px;
+      border: 3px solid rgba(255,200,60,0.06);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+    }
+
+    .content {
+      flex: 1 1 300px;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+      color: #ffd985;
+      text-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      letter-spacing: 0.8px;
+      animation: goldPulse 4s infinite;
+    }
+    @keyframes goldPulse {
+      0% { transform: translateY(0); text-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 14px rgba(255,200,60,0.04); }
+      50% { transform: translateY(-2px); text-shadow: 0 10px 34px rgba(0,0,0,0.6), 0 0 30px rgba(255,200,60,0.12); }
+      100% { transform: translateY(0); text-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 14px rgba(255,200,60,0.04); }
+    }
+    .subtitle {
+      color: #d9d1c4;
+      margin: 6px 0 16px 0;
+      font-size: 1rem;
+    }
+    .timeline {
+      margin-top: 8px;
+      padding: 14px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      color: #efe7d7;
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
+    .timeline ul {
+      list-style: inside disc;
+      padding-left: 14px;
+    }
     .quote {
-      margin: 40px 0;
+      margin: 32px 0;
       font-size: 1.3rem;
       font-style: italic;
       color: #f3eac2;
@@ -163,14 +139,13 @@
       transform: translateY(0);
     }
 
-    /* ===== Candle & Controls ===== */
     .candle-area {
-      margin: 30px 0;
+      margin-top: 24px;
       text-align: center;
     }
     .candle-area img {
-      width: 80px;
-      filter: drop-shadow(0 0 20px rgba(255,200,60,0.5));
+      width: 70px;
+      filter: drop-shadow(0 0 18px rgba(255,190,60,0.5));
       animation: flicker 2s infinite;
     }
     @keyframes flicker {
@@ -178,124 +153,101 @@
       50% { filter: brightness(1.4); }
     }
 
-    .controls {
-      margin-top: 20px;
-      text-align: center;
-    }
-    .controls button {
-      background: linear-gradient(180deg, #ffd77a, #f0a500);
-      color: #020202;
-      border: none;
-      padding: 10px 20px;
-      margin: 0 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 4px 18px rgba(240,165,0,0.3);
-      transition: transform 0.2s ease;
-    }
-    .controls button:active {
-      transform: scale(0.98);
-    }
-
-    /* ===== Footer ===== */
-    footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #b0a98a;
-    }
-
-    /* ===== Responsive ===== */
-    @media (max-width: 768px) {
-      header img { width: 180px; }
-      header h1 { font-size:2.2rem; }
-      .bio-section ul { font-size: 0.95rem; }
-      .quote { font-size: 1.15rem; }
-      .candle-area img { width: 60px; }
-    }
   </style>
 </head>
 <body>
 
-  <div class="flag-bg" aria-hidden="true"></div>
-  <div class="overlay-dark" aria-hidden="true"></div>
-  <div class="embers" id="embers"></div>
-  <div class="mist" id="mist"></div>
-
-  <div class="container">
-
-    <header>
-      <img src="https://i.imgur.com/2KvB6pP.jpg" alt="Portrait of Raila Odinga">
-      <h1>Raila Amolo Odinga</h1>
-      <p class="subtitle">A Life of Leadership, Legacy & Democracy</p>
-    </header>
-
-    <section class="bio-section">
-      <h2>Biography & Achievements</h2>
-      <ul>
-        <li>Born on 7 January 1945 in Maseno, Kenya.</li>
-        <li>Son of Jaramogi Oginga Odinga — an important figure in Kenya’s fight for independence.</li>
-        <li>Pioneered the push for multiparty democracy in the 1990s.</li>
-        <li>Served as Prime Minister of Kenya from 2008-2013.</li>
-        <li>Contested several Presidential elections, shaping Kenya’s modern political landscape.</li>
-        <li>Passed away on 15 October 2025; remembered nationwide for his voice, service, and courage.</li>
-      </ul>
-    </section>
-
-    <div class="quote" id="quote"></div>
-
-    <div class="candle-area">
-      <img src="https://i.imgur.com/O9b6nZV.gif" alt="Flickering candle">
-      <p style="color:#f0e7c1;">"A light that never fades."</p>
-    </div>
-
-    <div class="controls">
-      <button id="playBtn">▶ Listen</button>
-    </div>
-
-    <footer>
-      Designed as an honorary tribute. Press <strong>Play</strong> to start the tribute animations & music.
-    </footer>
-
+  <div class="intro" id="intro">
+    <button id="enterBtn">Enter Tribute</button>
   </div>
 
-  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2023/04/04/audio_19c5f53ff7.mp3?filename=violin-melancholy-14773.mp3" preload="auto" loop></audio>
+  <div class="flag-bg"></div>
+  <div class="overlay-dark"></div>
+
+  <div class="card" id="card">
+    <img class="portrait" src="https://i.imgur.com/2KvB6pP.jpg" alt="Raila Odinga portrait">
+    <div class="content">
+      <h1>The Honourable Raila Amolo Odinga</h1>
+      <div class="subtitle">Leadership • Legacy • Vision</div>
+      <div class="timeline">
+        <ul>
+          <li>Born: 7 January 1945, Maseno, Kenya.</li>
+          <li>Prominent figure pushing for multiparty democracy.</li>
+          <li>Served as Prime Minister: 2008–2013.</li>
+          <li>Renowned for political resilience and advocacy.</li>
+          <li>Beloved cultural icon & public speaker.</li>
+        </ul>
+      </div>
+      <div class="quote" id="quote"></div>
+      <div class="candle-area">
+        <img src="https://i.imgur.com/O9b6nZV.gif" alt="Candle">
+        <div style="color:#e9dfc9;font-size:0.95rem">“A guiding light for generations.”</div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="score" preload="auto" loop>
+    <!-- Replace “your-licensed-jamaica-farewell.mp3” with the actual URL you host legally -->
+    <source src="your-licensed-jamaica-farewell.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    const bgMusic = document.getElementById('bgMusic');
-    const playBtn = document.getElementById('playBtn');
+    const intro = document.getElementById('intro');
+    const enterBtn = document.getElementById('enterBtn');
+    const card = document.getElementById('card');
+    const score = document.getElementById('score');
     const quoteEl = document.getElementById('quote');
-    const quotes = [
-      "A towering statesman in Kenya’s modern history.",
-      "Champion of democracy, dignity, and service.",
-      "His courage inspired millions.",
-      "Memory that shapes Kenya’s future."
-    ];
-    let qIndex = 0;
 
-    function showQuote(){
-      if(qIndex < quotes.length){
-        quoteEl.textContent = quotes[qIndex];
+    const quotes = [
+      "A towering statesman in Kenya's modern history.",
+      "A voice for democracy, dignity, and service.",
+      "His courage inspired millions.",
+      "Legacy that shapes tomorrow's Kenya."
+    ];
+    let qI = 0;
+
+    function showQuote() {
+      if (qI < quotes.length) {
+        quoteEl.textContent = quotes[qI];
         quoteEl.classList.add('visible');
-        setTimeout(()=> {
+        setTimeout(() => {
           quoteEl.classList.remove('visible');
-          qIndex++;
-          setTimeout(showQuote, 1500);
-        }, 4000);
+          qI++;
+          setTimeout(showQuote, 1200);
+        }, 3800);
+      } else {
+        quoteEl.textContent = "Leadership that resonates beyond time.";
+        quoteEl.classList.add('visible');
       }
     }
 
-    playBtn.addEventListener('click', () => {
-      bgMusic.volume = 0;
-      bgMusic.play().catch(() => {});
-      let fade = setInterval(()=> {
-        if(bgMusic.volume < 0.16) bgMusic.volume += 0.01;
-        else clearInterval(fade);
+    enterBtn.addEventListener('click', () => {
+      // hide intro, show main card
+      intro.style.opacity = '0';
+      intro.style.pointerEvents = 'none';
+
+      setTimeout(() => {
+        intro.remove();
+      }, 600);
+
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+
+      // start music fade-in
+      score.volume = 0;
+      score.play().catch(() => {});
+      const fade = setInterval(() => {
+        if (score.volume < 0.16) {
+          score.volume = Math.min(0.16, score.volume + 0.01);
+        } else {
+          clearInterval(fade);
+        }
       }, 200);
+
+      // start quote cycle
       showQuote();
-      playBtn.style.display = 'none';
     });
   </script>
+
 </body>
 </html>
